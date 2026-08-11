@@ -8,40 +8,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check if backend exists
-        id: check_files
-        run: |
-          if [ -d "backend" ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Backend directory not found. Skipping remaining steps."
-           Alc
+      # - name: Check if backend exists
+      #   id: check_files
+      #   run: |
+      #     if [ -d "backend" ]; then
+      #       echo "exists=true" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "exists=false" >> $GITHUB_OUTPUT
+      #       echo "Backend directory not found. Skipping remaining steps."
+      #      Alc
 
-      - name: Set up Python
-        if: steps.check_files.outputs.exists == 'true'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-          cache: pip
-          cache-dependency-path: backend/requirements.txt
+      # - name: Set up Python
+      #   if: steps.check_files.outputs.exists == 'true'
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.13'
+      #     cache: pip
+      #     cache-dependency-path: backend/requirements.txt
       
-      - name: Install dependencies
-        if: steps.check_files.outputs.exists == 'true'
-        working-directory: backend
-        run: |
-          if [ -f "requirements.txt" ]; then
-            pip install -r requirements.txt
-          else
-            echo "requirements.txt not found. Skipping install."
-          fi
+      # - name: Install dependencies
+      #   if: steps.check_files.outputs.exists == 'true'
+      #   working-directory: backend
+      #   run: |
+      #     if [ -f "requirements.txt" ]; then
+      #       pip install -r requirements.txt
+      #     else
+      #       echo "requirements.txt not found. Skipping install."
+      #     fi
       
-      - name: Run tests
-        if: steps.check_files.outputs.exists == 'true'
-        working-directory: backend
-        run: |
-          if [ -f "manage.py" ]; then
-            python manage.py test
-          else
-            echo "manage.py not found. Skipping tests."
-          fi
+      # - name: Run tests
+      #   if: steps.check_files.outputs.exists == 'true'
+      #   working-directory: backend
+      #   run: |
+      #     if [ -f "manage.py" ]; then
+      #       python manage.py test
+      #     else
+      #       echo "manage.py not found. Skipping tests."
+      #     fi

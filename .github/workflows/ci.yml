@@ -16,7 +16,7 @@ jobs:
           else
             echo "exists=false" >> $GITHUB_OUTPUT
             echo "Backend directory not found. Skipping remaining steps."
-           Alc
+          fi
 
       - name: Set up Python
         if: steps.check_files.outputs.exists == 'true'

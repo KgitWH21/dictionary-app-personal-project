@@ -8,15 +8,18 @@ from accounts.views import JWTCookieAuthentication
 
 from .models import Collection, Entry
 from .serializers import CollectionSerializer, EntrySerializer
-# from .services import # for Elevenlabs API later
+from .services import SpeechError, synthesize_speech
 
-# this makes every dictionary account private 
+# this makes every dictionary account private
+# modelviewsets made it to where I didn't have to write out all CRUD methods. Had to learn about routers though... 
 class OwnedModelViewSet(viewsets.ModelViewSet):
     authentication_classes = [JWTCookieAuthentication, JWTAuthentication]
     
+    #this allows the user to only see their own rows
     def get_queryset(self):
         return self.queryset.filter(owner=self.request.user)
     
+    # ensures ownership comes from the authenticated token
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)   
 

@@ -138,7 +138,7 @@ SIMPLE_JWT ={
 # AUTH_USER_MODEL = 'accounts.(INSERT ACCOUNT MODEL HERE)'
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_URL = "media/" # used to serve audio files
+MEDIA_URL = "/media/" # used to serve audio files
 MEDIA_ROOT = BASE_DIR / "media"
 
 CORS_ALLOWED_ORIGINS = os.getenv(

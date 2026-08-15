@@ -12,7 +12,7 @@ from rest_framework_simplejwt.settings import api_settings
 from .serializers import UserSerializer, RegisterSerializer
 
 ACCESS_MAX_AGE = int(settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds())
-REFRESH_MAX_AGE = int(settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"]).total_seconds())
+REFRESH_MAX_AGE = int(settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"].total_seconds())
 REFRESH_COOKIE_PATH = "/api/auth/"
 # Create your views here.
 

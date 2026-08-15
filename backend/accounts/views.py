@@ -36,7 +36,24 @@ def set_auth_cookies(response, access=None, refresh=None):
             )
     return response
 
+def clear_auth_cookies(response):
+    response.delete_cookie("access", path"/")
+    response.delete_cookie("refresh", path=REFRESH_COOKIE_PATH)
+    return response
+
+def tokens_for(user):
+    refresh = RefreshToken.for_user(user)
+    return str(refresh.access_token), str(refresh)
+
 #finish writing cookie logic later
+class JWTCookieAuthentication(JWTAuthentication):
+    def authenticate(self, request):
+        raw_token = request.COOKIES.get("access")
+        if raw_token is None:
+            return None          # "no opinion" — DRF tries the next class
+        validated_token = self.get_validated_token(raw_token)
+        return self.get_user(validated_token), validated_token
+
 
 class UserView(APIView):
     authentication_classes = [JWTCookieAuthentication]
@@ -72,6 +89,44 @@ class LogIn(APIView):
                 {"detail": "No user matching credentials"}, status=s.HTTP_401_UNAUTHORIZED
             )
 
+class RefreshView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request):
+        raw_refresh = request.COOKIES.get("refresh")
+        if not raw_refresh:
+            return Response(
+                {"detail": "No refresh Token"}, status=s.HTTP_401_UNAUTHORIZED
+            )
+        try:
+            refresh = RefreshToken(raw_refresh)
+        except TokenError:
+            #if there's anything wrong with the cookies, we clear them 
+            return clear_auth_cookies(
+                Response(
+                    {"detail": "Invalid or expired refresh Token"},
+                    status=s.HTTP_401_UNAUTHORIZED,
+                )
+            )
+        access = str(refresh.access_token)
+
+        new_refresh = None
+
+        if api_settings.ROTATE_REFRESH_TOKENS:
+            if api_settings.BLACKLIST_AFTER_ROTATION:
+                try:
+                    refresh.blacklist()
+                except AttributeError:
+                    pass
+
+            refresh.set_jti()
+            refresh.set_exp()
+            refresh.set_iat()
+            new_refresh = str(refresh)
+        response = Response({"refreshed": True})
+        return set_auth_cookies(response, access, new_refresh)    
+
 class UserView(APIView):
     authentication_classes = [JWTCookieAuthentication, JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -90,3 +145,5 @@ class LogOut(UserView):
                 #this is for if the token is already expired or blacklisted: do nothing
                 pass
         return clear_auth_cookies(Response({"detail": "logged out"}))
+    
+

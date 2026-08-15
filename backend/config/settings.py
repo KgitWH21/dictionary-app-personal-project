@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "accounts",
     "dictionary",
+    "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist" # crucial for security, token rotation, and preventing token reuse
 ]
 
@@ -126,11 +127,13 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated",],
 }
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "BLACKLIST_AFTER_ROTATION": True,
+SIMPLE_JWT ={
+    "ACCESS_TOKEN_LIFETIME":timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME":timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION":True
 }
+
 
 # AUTH_USER_MODEL = 'accounts.(INSERT ACCOUNT MODEL HERE)'
 

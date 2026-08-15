@@ -25,16 +25,12 @@ load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-chw#z5o^r$^xhcd&q+y(9cief@7a=v$xnu^0bwuybf^!gu1b$4'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY",'django-insecure-chw#z5o^r$^xhcd&q+y(9cief@7a=v$xnu^0bwuybf^!gu1b$4')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", 'False') == 'True'
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-]
-
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 # Application definition
 
@@ -100,6 +96,17 @@ DATABASES = {
     }
 }
 
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'False') == 'True'
+SESSION_COOKIE_HTTPONLY = os.environ.get('SESSION_COOKIE_HTTPONLY', 'True') == 'True'
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', 'False') == 'True'
+
+#Our Auth cookies
+AUTH_COOKIE_SECURE = os.environ.get('AUTH_COOKIE_SECURE', 'False') == 'True'
+AUTH_COOKIE_SAMESITE = os.environ.get('AUTH_COOKIE_SAMESITE', 'Lax')
+
+#Django discovers the HTTPS request from this header
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -138,15 +145,17 @@ SIMPLE_JWT ={
 # AUTH_USER_MODEL = 'accounts.(INSERT ACCOUNT MODEL HERE)'
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_URL = "media/" # used to serve audio files
+MEDIA_URL = "/media/" # used to serve audio files
 MEDIA_ROOT = BASE_DIR / "media"
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOWED_ORIGINS = os.getenv(
     "CORS_ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
 ).split(",")
 
-# ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY", "")
-# ELEVENLABS_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")
+ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY", "")
+ELEVENLABS_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "qnM0UikauKMnE3p7Jll6")
 
 
 # Internationalization

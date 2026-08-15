@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.conf import settings
 from rest_framework import status as s
 from django.contrib.auth import login, authenticate, logout
-from .models import # add models here later
+from dictionary.models import Collection, Entry 
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication

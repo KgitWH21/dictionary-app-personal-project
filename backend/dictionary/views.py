@@ -7,9 +7,9 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from accounts.views import JWTCookieAuthentication
 
-from .models import # insert models later
-from .serializers import # insert serializers later
-from .services import # for Elevenlabs API later
+# from .models import # insert models later
+# from .serializers import # insert serializers later
+# from .services import # for Elevenlabs API later
 
 class OwnedModelViewSet(viewsets.ModelViewSet):
     authentication_classes = [JWTCookieAuthentication, JWTAuthentication]   

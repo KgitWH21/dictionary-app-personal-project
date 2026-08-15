@@ -4,12 +4,13 @@ from rest_framework import status as s
 from django.contrib.auth import login, authenticate, logout
 from .models import # add models here later
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import response
+from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.settings import api_settings
 from .serializers import UserSerializer, RegisterSerializer
+from rest_framework.views import APIView
 
 ACCESS_MAX_AGE = int(settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds())
 REFRESH_MAX_AGE = int(settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"].total_seconds())
@@ -37,7 +38,7 @@ def set_auth_cookies(response, access=None, refresh=None):
     return response
 
 def clear_auth_cookies(response):
-    response.delete_cookie("access", path"/")
+    response.delete_cookie("access", path="/")
     response.delete_cookie("refresh", path=REFRESH_COOKIE_PATH)
     return response
 
@@ -85,7 +86,8 @@ class LogIn(APIView):
         if user:
             access, refresh = tokens_for(user)
             response = Response({"user": UserSerializer(user).data})
-            return Response(
+            return set_auth_cookies(response, access, refresh)
+        return Response(
                 {"detail": "No user matching credentials"}, status=s.HTTP_401_UNAUTHORIZED
             )
 
@@ -126,10 +128,6 @@ class RefreshView(APIView):
             new_refresh = str(refresh)
         response = Response({"refreshed": True})
         return set_auth_cookies(response, access, new_refresh)    
-
-class UserView(APIView):
-    authentication_classes = [JWTCookieAuthentication, JWTAuthentication]
-    permission_classes = [IsAuthenticated]
 
 class InfoView(UserView):
     def get(self, request):

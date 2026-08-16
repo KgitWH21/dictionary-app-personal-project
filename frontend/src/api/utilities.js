@@ -130,3 +130,23 @@ export const collectionLoader = async ({ params }) => {
     return { collectionId: params.id, entries };
 }
 
+export const createCollection = async (collectionObj) => {
+    try {
+        const response = await api.post("/collections/", collectionObj);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export const deleteCollection = async (collectionId) => {
+    try {
+        await api.delete(`/collections/${collectionId}/`);
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+

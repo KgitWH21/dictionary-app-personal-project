@@ -1,9 +1,7 @@
-from django.shortcuts import render
 from django.conf import settings
 from rest_framework import status as s
 from django.contrib.auth import login, authenticate, logout
-from dictionary.models import Collection, Entry 
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import TokenError
@@ -15,7 +13,6 @@ from rest_framework.views import APIView
 ACCESS_MAX_AGE = int(settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds())
 REFRESH_MAX_AGE = int(settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"].total_seconds())
 REFRESH_COOKIE_PATH = "/api/auth/"
-# Create your views here.
 
 def set_auth_cookies(response, access=None, refresh=None):
     common = {
@@ -46,7 +43,6 @@ def tokens_for(user):
     refresh = RefreshToken.for_user(user)
     return str(refresh.access_token), str(refresh)
 
-#finish writing cookie logic later
 class JWTCookieAuthentication(JWTAuthentication):
     def authenticate(self, request):
         raw_token = request.COOKIES.get("access")

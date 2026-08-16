@@ -2,7 +2,7 @@ import axios from 'axios'
 
 //this connects frontend with backend
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+    baseURL: 'import.meta.env.VITE_API_URL || '/api/'',
     withCredentials: true,
 })
 
@@ -38,4 +38,48 @@ api.interceptors.response.use(
 )
 
 export default api
+
+export const errorMessage = (error) => {
+    const data = error.response?.data;
+    if (!data) return "Could not reach the server.";
+    return typeof data === "string" ? data : JSON.stringify(data);
+}
+
+export const userLogin = async (username, password) => {
+    try {
+        const response = await api.post("/auth/login/", { username, password });
+        return response.data.user;
+    } catch (error) {
+        alert(errorMessage(error));
+        return null;
+    }
+}
+
+export const userRegister = async (userObj) => {
+    try {
+        const response = await api.post("/auth/register/", userObj);
+        return response.data.user;
+    } catch (error) {
+        alert(errorMessage(error));
+        return null;
+    }
+}
+
+export const userLogOut = async () => {
+    try {
+        await api.post("/auth/logout/");
+    } catch (error) {
+        console.error("Logout request failed;", error);
+    }
+    return null;
+}
+
+export const userConfirmation = async () => {
+    try {
+        const response = await api.get("/auth/me/");
+        return response.data;
+    } catch (error) {
+        return null;
+    }
+}
 

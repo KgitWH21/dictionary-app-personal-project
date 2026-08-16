@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { redirect } from "react-router-dom"
 
 //this connects frontend with backend
 const api = axios.create({
-    baseURL: 'import.meta.env.VITE_API_URL || '/api/'',
+    baseURL: import.meta.env.VITE_API_URL || '/api/',
     withCredentials: true,
 })
 
@@ -81,5 +82,51 @@ export const userConfirmation = async () => {
     } catch (error) {
         return null;
     }
+}
+
+// blocks a route: bounce to login if no valid cookie
+export const requireLogin = async () => {
+    const user = await userConfirmation();
+    if (!user) throw redirect("/");
+    return user;
+}
+
+// the reverse: a logged-in user has no business on the login page
+export const redirectIfLoggedIn = async () => {
+    const user = await userConfirmation();
+    return user ? redirect("/home") : null;
+}
+
+export const getCollections = async () => {
+    try {
+        const response = await api.get("/collections/");
+        return response.data;
+    } catch (error) {
+        console.error(errorMessage(error));
+        return [];
+    }
+}
+
+export const getEntries = async (collectionId) => {
+    try {
+        const response = await api.get("/entries/", {
+            params: collectionId ? { collection: collectionId } : {}
+        });
+        return response.data;
+    } catch (error) {
+        console.error(errorMessage(error));
+        return [];
+    }
+}
+
+export const homeLoader = async () => {
+    await requireLogin();
+    return getCollections();
+}
+
+export const collectionLoader = async ({ params }) => {
+    await requireLogin();
+    const entries = await getEntries(params.id);
+    return { collectionId: params.id, entries };
 }
 

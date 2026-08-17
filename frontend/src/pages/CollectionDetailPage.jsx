@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useLoaderData, useRevalidator } from 'react-router-dom'
 import { createEntry, deleteEntry, pronounceEntry } from '../api/utilities.js'
+import { lookupWord } from '../api/dictionaryApi.js'
 
 const BLANK_ENTRY = {
     word: '',
@@ -16,6 +17,7 @@ const CollectionDetailPage = () => {
     const revalidator = useRevalidator()
     const [form, setForm] = useState(BLANK_ENTRY)
     const [speakingId, setSpeakingId] = useState(null)
+    const [looking, setLooking] = useState(false)
 
     const handleChange = (event) => {
         const { name, value } = event.target
@@ -46,6 +48,23 @@ const CollectionDetailPage = () => {
         if (ok) revalidator.revalidate()
     }
 
+    const handleLookup = async () => {
+        if (!form.word.trim()) return
+        setLooking(true)
+        const found = await lookupWord(form.word)
+        setLooking(false)
+        if (found) {
+            setForm((prev) => ({
+                ...prev,
+                word: found.word,
+                phonetic: found.phonetic,
+                part_of_speech: found.part_of_speech,
+                definition: found.definition,
+                example_sentence: found.example_sentence || prev.example_sentence,
+            }))
+        }
+    }                           
+
     return (
         <div>
             <Link to="/home">&larr; Return to collections</Link>
@@ -53,6 +72,9 @@ const CollectionDetailPage = () => {
             <form onSubmit={handleCreate}>
                 <label htmlFor='word'>Word</label>
                 <input id="word" name="word" value={form.word} onChange={handleChange} required/>
+                <button type="button" onClick={handleLookup} disabled={looking}>
+                    {looking ? 'Looking up...' : 'Look up'}
+                </button>                
 
                 <label htmlFor="phonetic">Phonetic</label>
                 <input id="phonetic" name="phonetic" value={form.phonetic} onChange={handleChange}/>

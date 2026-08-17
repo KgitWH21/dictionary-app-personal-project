@@ -16,8 +16,11 @@ const refreshAccessToken = () => {
     return refreshPromise
 }
 
+const PUBLIC_PATHS = ['/', '/register']
+
+// the interceptor runs outside the router, so a hard redirect is the simplest exit
 const goToLogin = () => {
-    if (window.location.pathname !== '/') {
+    if (!PUBLIC_PATHS.includes(window.location.pathname)) {
         window.location.assign('/')
     }
 }

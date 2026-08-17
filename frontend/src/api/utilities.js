@@ -17,6 +17,7 @@ const refreshAccessToken = () => {
 }
 
 const PUBLIC_PATHS = ['/', '/register']
+const AUTH_ENDPOINTS = ['auth/login', 'auth/register', 'auth/refresh', 'auth/logout']
 
 // the interceptor runs outside the router, so a hard redirect is the simplest exit
 const goToLogin = () => {
@@ -32,9 +33,9 @@ api.interceptors.response.use(
     async (error)=>{
         const originalRequest = error.config;
 
-        const isRefreshCall = originalRequest?.url?.includes("auth/refresh")
+        const isAuthCall = AUTH_ENDPOINTS.some((path) => originalRequest?.url?.includes(path))
 
-        if (error.response?.status === 401 && !originalRequest._retry && !isRefreshCall){
+        if (error.response?.status === 401 && !originalRequest._retry && !isAuthCall){
             originalRequest._retry = true
             try {
                 await refreshAccessToken();

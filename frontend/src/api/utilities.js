@@ -150,3 +150,32 @@ export const deleteCollection = async (collectionId) => {
     }
 }
 
+export const createEntry = async (entryObj) => {
+    try {
+        const response = await api.post("/entries/", entryObj);
+        return response.data;
+    } catch (error) {
+        console.error(errorMessage(error));
+        return null;
+    }
+}
+
+export const deleteEntry = async (entryId) => {
+    try {
+        await api.delete(`/entries/${entryId}/`);
+        return true;
+    } catch (error) {
+        console.error(errorMessage(error));
+        return false;
+    }
+}
+
+export const pronounceEntry = async (entryId, source = "word") => {
+    try {
+        const response = await api.post(`/entries/${entryId}/pronounce/`, { source });
+        return response.data;
+    } catch (error) {
+        console.error(errorMessage(error));
+        return null;
+    }
+}

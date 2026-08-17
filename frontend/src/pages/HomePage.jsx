@@ -55,8 +55,8 @@ const HomePage = ()=> {
             ) : (
                 <ul className="mt-6 space-y-3">
                     {collections.map((collection) => (
-                        <li key={collection.id} className="rounded border border-slate-300 bg-white p-4">
-                            <Link to={`/collections/${collection.id}`}>
+                        <li key={collection.id} className="rounded border border-slate-300 bg-white p-4" className="block hover:bg-slate-50">
+                            <Link to={`/collections/${collection.id}`} className="text-blue-600 underline font-medium">
                                 {collection.name}
                             </Link>     
                             <span> ({collection.entry_count} entries)</span>

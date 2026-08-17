@@ -16,6 +16,12 @@ const refreshAccessToken = () => {
     return refreshPromise
 }
 
+const goToLogin = () => {
+    if (window.location.pathname !== '/') {
+        window.location.assign('/')
+    }
+}
+
 api.interceptors.response.use(
     // On success do nothing
     (response)=>response,
@@ -31,6 +37,7 @@ api.interceptors.response.use(
                 await refreshAccessToken();
                 return api(originalRequest)
             }catch(refreshError){
+                goToLogin()
                 return Promise.reject(refreshError)
             }
         }

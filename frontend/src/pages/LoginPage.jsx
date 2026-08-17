@@ -18,10 +18,10 @@ const LoginPage = () => {
     }
     
     return (
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
+        <div className="mx-auto max-w-sm p-6">
+            <h1 className="mb-4 text-2xl font-bold">Login</h1>
+            <form onSubmit={handleSubmit} className="rounded border border-slate-300 bg-white p-4">
+                <label htmlFor="username" className="block text-sm font-medium mb-1">Username</label>
                 <input
                   id="username"
                   name="username"
@@ -30,7 +30,7 @@ const LoginPage = () => {
                   autoComplete="username"
                   required
                 />
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" className="block text-sm font-medium mb-1">Password</label>
                 <input 
                   id="password"
                   name="password"
@@ -39,14 +39,20 @@ const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
                   required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
-                <button type="submit" disabled={submitting}>
+                <button type="submit" disabled={submitting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     {submitting ? 'Logging in...' : 'Log in'}
                 </button>
             </form>
             <p>
-                No account? <Link to="/register">Register</Link>
+                No account? <Link 
+                                to="/register" 
+                                class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            >
+                                Register
+                            </Link>
             </p>
         </div>
     )

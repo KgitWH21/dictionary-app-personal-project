@@ -66,37 +66,77 @@ const CollectionDetailPage = () => {
     }                           
 
     return (
-        <div>
+        <div className="mx-auto max-w-sm p-6">
             <Link to="/home">&larr; Return to collections</Link>
-            <h1>Entries</h1>
-            <form onSubmit={handleCreate}>
-                <label htmlFor='word'>Word</label>
-                <input id="word" name="word" value={form.word} onChange={handleChange} required/>
-                <button type="button" onClick={handleLookup} disabled={looking}>
+            <h1 className="mb-4 text-2xl font-bold">Entries</h1>
+            <form onSubmit={handleCreate} className="rounded border border-slate-300 bg-white p-4">
+                <label 
+                  htmlFor='word' 
+                  className="block text-sm font-medium mb-1"
+                  >Word
+                </label>
+                <input 
+                  id="word" 
+                  name="word" 
+                  value={form.word} 
+                  onChange={handleChange} 
+                  required 
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+                <button 
+                  type="button" 
+                  onClick={handleLookup} 
+                  disabled={looking} 
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     {looking ? 'Looking up...' : 'Look up'}
                 </button>                
 
-                <label htmlFor="phonetic">Phonetic</label>
-                <input id="phonetic" name="phonetic" value={form.phonetic} onChange={handleChange}/>
+                <label 
+                  htmlFor="phonetic" 
+                  className="block text-sm font-medium mb-1">Phonetic</label>
+                <input 
+                  id="phonetic" 
+                  name="phonetic" 
+                  value={form.phonetic} 
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
 
-                <label htmlFor="part_of_speech">Part of speech</label>
+                <label 
+                  htmlFor="part_of_speech" 
+                  className="block text-sm font-medium mb-1"
+                  >
+                    Part of speech
+                </label>
                 <input
                   id="part_of_speech"
                   name="part_of_speech"
                   value={form.part_of_speech}
                   onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
-                <label htmlFor="definition">Definition</label>
+                <label 
+                  htmlFor="definition" 
+                  className="block text-sm font-medium mb-1"
+                >
+                    Definition
+                </label>
                 <textarea 
                   id="definition"
                   name="definition"
                   value={form.definition}
                   onChange={handleChange}
                   required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
-                <label htmlFor="example_sentence">Example Sample</label>
+                <label 
+                  htmlFor="example_sentence" 
+                  className="block text-sm font-medium mb-1"
+                >
+                    Example Sample
+                </label>
                 <textarea
                   id="example_sentence" 
                   name="example_sentence"
@@ -104,22 +144,33 @@ const CollectionDetailPage = () => {
                   onChange={handleChange}
                 />
 
-                <label htmlFor="usage_note">Usage note</label>
+                <label 
+                  htmlFor="usage_note" 
+                  className="block text-sm font-medium mb-1"
+                >
+                    Usage note
+                </label>
                 <textarea
                   id="usage_note"
                   name="usage_note"
                   value={form.usage_note}
                   onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
-                <button type="submit">Add entry</button>                
+                <button 
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Add entry
+                </button>                
             </form>
 
             {entries.length === 0 ? (
                 <p>No entries in this collection yet.</p>
             ) : (
-                <ul>
+                <ul className="mt-6 space-y-3">
                     {entries.map((entry) => (
-                        <li key={entry.id}>
+                        <li key={entry.id} className="rounded border border-slate-300 bg-white p-4">
                             <h2>
                                 {entry.word}
                                 {entry.phonetic && <em>{entry.phonetic}</em>}
@@ -137,6 +188,7 @@ const CollectionDetailPage = () => {
                             <button
                                 onClick={() => handlePronounce(entry.id, 'word')}
                                 disabled={speakingId === entry.id}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 {speakingId === entry.id ? 'Generating...' : 'Pronounce word'}
                             </button>
@@ -145,6 +197,7 @@ const CollectionDetailPage = () => {
                                 <button
                                     onClick={() => handlePronounce(entry.id, 'example')}
                                     disabled={speakingId === entry.id}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                 >
                                     Pronounce example
                                 </button>

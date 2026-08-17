@@ -15,7 +15,7 @@ const ErrorPage = () => {
     }
 
     return (
-        <div>
+        <div className="mx-auto max-w-sm p-6">
             <h1>Oh no..</h1>
             <p>{msg}</p>
             <Link to="/">Back to login</Link>

@@ -29,11 +29,11 @@ const RegisterPage = () => {
     
     // used four form fields 
     return (
-        <div>
-            <h1>Register</h1>
+        <div className="mx-auto max-w-sm p-6">
+            <h1 className="mb-4 text-2xl font-bold">Register</h1>
 
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
+            <form onSubmit={handleSubmit} className="rounded border border-slate-300 bg-white p-4">
+                <label htmlFor="username" className="block text-sm font-medium mb-1">Username</label>
                 <input
                     id="username"
                     name="username"
@@ -41,9 +41,10 @@ const RegisterPage = () => {
                     onChange={handleChange}
                     autoComplete="username"
                     required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
                 <input
                     id="email"
                     name="email"
@@ -52,9 +53,10 @@ const RegisterPage = () => {
                     onChange={handleChange}
                     autoComplete="email"
                     required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" className="block text-sm font-medium mb-1">Password</label>
                 <input
                     id="password"
                     name="password"
@@ -63,9 +65,10 @@ const RegisterPage = () => {
                     onChange={handleChange}
                     autoComplete="new-password"
                     required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
-                <label htmlFor="password_confirm">Confirm password</label>
+                <label htmlFor="password_confirm" className="block text-sm font-medium mb-1">Confirm password</label>
                 <input
                     id="password_confirm"
                     name="password_confirm"
@@ -74,9 +77,10 @@ const RegisterPage = () => {
                     onChange={handleChange}
                     autoComplete="new-password"
                     required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
-                <button type="submit" disabled={submitting}>
+                <button type="submit" disabled={submitting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     {submitting ? 'Creating account…' : 'Register'}
                 </button>
             </form>

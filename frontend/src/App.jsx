@@ -13,24 +13,24 @@ const App = () => {
     if (loading) return <p className="p-8">Loading...</p>
 
     return (
-        <div>
-            <header>
-                <Link to={user ? '/home' : '/'}>
+        <div className="min-h-screen bg-slate-100">
+            <header className="flex items-center justify-between border-b bg-white px-6 py-3">
+                <Link to={user ? '/home' : '/'} className='font-bold'>
                   Hayden's Dictionary App
                 </Link>
 
                 {user && (
-                    <nav>
+                    <nav className="flex items-center gap-3">
                         <span>{user.username}</span>
                         <button
                           onClick={handleLogout}
-                          >
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                           Log out
                         </button>
                     </nav>
                 )}
             </header>
-            <main>
+            <main className="mx-auto max-w-3xl p-6">
                 <Outlet />
             </main>
         </div>

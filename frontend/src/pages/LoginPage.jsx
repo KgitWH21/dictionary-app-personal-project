@@ -29,6 +29,7 @@ const LoginPage = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   autoComplete="username"
                   required
+                  data-cy="login-username"
                 />
                 <label htmlFor="password" className="block text-sm font-medium mb-1">Password</label>
                 <input 
@@ -40,9 +41,10 @@ const LoginPage = () => {
                   autoComplete="current-password"
                   required
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  data-cy="login-password"
                 />
 
-                <button type="submit" disabled={submitting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button type="submit" disabled={submitting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-cy="login-submit">
                     {submitting ? 'Logging in...' : 'Log in'}
                 </button>
             </form>

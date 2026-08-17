@@ -42,6 +42,7 @@ const RegisterPage = () => {
                     autoComplete="username"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    data-cy="register-username"
                 />
 
                 <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
@@ -54,6 +55,7 @@ const RegisterPage = () => {
                     autoComplete="email"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    data-cy="register-email"
                 />
 
                 <label htmlFor="password" className="block text-sm font-medium mb-1">Password</label>
@@ -66,6 +68,7 @@ const RegisterPage = () => {
                     autoComplete="new-password"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    data-cy="register-password"
                 />
 
                 <label htmlFor="password_confirm" className="block text-sm font-medium mb-1">Confirm password</label>
@@ -78,9 +81,15 @@ const RegisterPage = () => {
                     autoComplete="new-password"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    data-cy="register-password-confirm"
                 />
 
-                <button type="submit" disabled={submitting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button 
+                  type="submit" 
+                  disabled={submitting} 
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  data-cy="register-submit"
+                  >
                     {submitting ? 'Creating account…' : 'Register'}
                 </button>
             </form>

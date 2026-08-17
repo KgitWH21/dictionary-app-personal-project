@@ -16,7 +16,7 @@ const App = () => {
         <div>
             <header>
                 <Link to={user ? '/home' : '/'}>
-                  Dictionary
+                  Hayden's Dictionary App
                 </Link>
 
                 {user && (

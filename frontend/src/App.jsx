@@ -21,11 +21,13 @@ const App = () => {
 
                 {user && (
                     <nav className="flex items-center gap-3">
-                        <span>{user.username}</span>
+                        <span data-cy="current-user">{user.username}</span>
                         <button
                           onClick={handleLogout}
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                          Log out
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                          data-cy="logout"
+                          >
+                           Log out
                         </button>
                     </nav>
                 )}

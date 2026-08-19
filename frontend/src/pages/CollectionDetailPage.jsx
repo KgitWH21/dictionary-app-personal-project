@@ -18,7 +18,11 @@ const CollectionDetailPage = () => {
     const [form, setForm] = useState(BLANK_ENTRY)
     const [speakingId, setSpeakingId] = useState(null)
     const [looking, setLooking] = useState(false)
-
+    
+    // const { name, value } = event.target: this is the destructured object. equivalent to 
+    // const name  = event.target.name
+    // const value = event.target.value
+    // small helper function, but by using "name" and "value" it maps to all elements of a word returned from dictionaryApi. Without it, I'd need one change function for each word attribute (definition, phonetic, etc.)
     const handleChange = (event) => {
         const { name, value } = event.target
         setForm((prev) => ({ ...prev, [name]: value }))
@@ -47,7 +51,10 @@ const CollectionDetailPage = () => {
         const ok = await deleteEntry(entryId)
         if (ok) revalidator.revalidate()
     }
-
+    
+    //Add a Word (AddWord) - Step 2. !form.word.trim() protects against empty input. Prevents a BS empty axios call. setLooking gives user feedback that's it's loading. Call lookupWord function. 
+    // 2a. prev preserves the current React state before the update. 
+    // 2b. example_sentence: found.example_sentence || prev.example_sentence : if no dictionaryApi example sentence is found, default to what the user already wrote (if it exists)
     const handleLookup = async () => {
         if (!form.word.trim()) return
         setLooking(true)
@@ -83,6 +90,7 @@ const CollectionDetailPage = () => {
                   required 
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
+                {/*Add a Word (AddWord) - Step 1. User enters a word in the  word field. The "Look up" button is conditional, dependent on if the setLooking state is active.*/}
                 <button 
                   type="button" 
                   onClick={handleLookup} 
@@ -142,6 +150,7 @@ const CollectionDetailPage = () => {
                   name="example_sentence"
                   value={form.example_sentence}
                   onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
                 <label 

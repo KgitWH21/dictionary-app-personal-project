@@ -43,6 +43,9 @@ def tokens_for(user):
     refresh = RefreshToken.for_user(user)
     return str(refresh.access_token), str(refresh)
 
+# AddWord - Step 12. JWTCookieAuth pulls raw JWT from request.COOKIES["access"]. 
+# Then it validates the obtained cookie's signature then sets request.user
+# IsAuthenticated authorizes the cookie
 class JWTCookieAuthentication(JWTAuthentication):
     def authenticate(self, request):
         raw_token = request.COOKIES.get("access")

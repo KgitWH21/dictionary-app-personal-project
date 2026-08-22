@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Collection, Entry
 
+# AddWord - Step 13. EntrySerializer validates the word entry from the collection. validate_word removes whitespace. validate_collection is another security check, it ensures a user can't POST in someone else's collection
 class EntrySerializer(serializers.ModelSerializer):
     audio_url = serializers.SerializerMethodField()
     collection_name = serializers.CharField(source="collection.name", read_only=True, allow_null=True)

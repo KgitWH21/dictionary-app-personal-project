@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { redirect } from "react-router-dom"
 
-//this connects frontend with backend
+//AddWord: Step 9a. this connects frontend with backend, vite proxies api :8000 during dev, in production nginx does it. This avoids a hard-coded host withCredentials: true tells the browser to attach httpOnly JWT cookies to the outgoing request
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || '/api/',
+    timeout: 5000,
     withCredentials: true,
 })
 
@@ -161,6 +162,7 @@ export const deleteCollection = async (collectionId) => {
     }
 }
 
+//AddWord Step: 9b. posts entry to /entries/ and returns response.data
 export const createEntry = async (entryObj) => {
     try {
         const response = await api.post("/entries/", entryObj);

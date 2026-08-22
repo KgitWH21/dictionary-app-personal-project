@@ -28,6 +28,9 @@ const CollectionDetailPage = () => {
         setForm((prev) => ({ ...prev, [name]: value }))
     }
 
+    //AddWord: Step 7. User hits "Add entry". Button is type="submit" so page wants to reload. I stop it with React using event.preventDefault()
+    // AddWord: Step 8. ...form spread operator sends all six form fields and the collection to the ForeignKey
+
     const handleCreate = async (event) => {
         event.preventDefault()
         const created = await createEntry({ ...form, collection: collectionId })
@@ -70,7 +73,8 @@ const CollectionDetailPage = () => {
                 example_sentence: found.example_sentence || prev.example_sentence,
             }))
         }
-    }                           
+    } 
+    //AddWord Step 6. Populates the form with the proper api responses from lookupWord function. Nothing is persisted at this point                          
 
     return (
         <div className="mx-auto max-w-sm p-6">

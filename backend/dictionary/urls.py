@@ -1,14 +1,17 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-from .views import CollectionViewSet, EntryViewSet
+from django.urls import path
 
-router = DefaultRouter()
-router.register("collections", CollectionViewSet, basename="collection")
-router.register("entries", EntryViewSet, basename="entry")
+from .views import (
+    CollectionDetailView,
+    CollectionListCreateView,
+    EntryDetailView,
+    EntryListCreateView,
+    EntryPronounceView,
+)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path("collections/", CollectionListCreateView.as_view(), name="collection-list"),
+    path("collections/<int:pk>/", CollectionDetailView.as_view(), name="collection-detail"),
+    path("entries/", EntryListCreateView.as_view(), name="entry-list"),
+    path("entries/<int:pk>/", EntryDetailView.as_view(), name="entry-detail"),
+    path("entries/<int:pk>/pronounce/", EntryPronounceView.as_view(), name="entry-pronounce"),
 ]
-
-#turns out the routing of viewsets wasn't as bad as I thought
-

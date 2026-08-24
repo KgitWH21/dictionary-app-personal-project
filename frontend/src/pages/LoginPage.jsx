@@ -30,6 +30,7 @@ const LoginPage = () => {
                   autoComplete="username"
                   required
                   data-cy="login-username"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
                 <label htmlFor="password" className="block text-sm font-medium mb-1">Password</label>
                 <input 

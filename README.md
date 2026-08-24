@@ -131,7 +131,7 @@ GitHub Actions runs on every push to `main` and on every pull request:
 1. **Django tests** — against a real PostgreSQL service container, with a check for
    missing migrations.
 2. **Lint and build** — oxlint plus a production Vite build.
-3. **Cypress E2E** — full stack, gated on the first two jobs passing.
+3. **Cypress E2E** 
 
 ## Notes and known limits
 

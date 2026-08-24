@@ -11,7 +11,8 @@ from .models import Collection, Entry
 from .serializers import CollectionSerializer, EntrySerializer
 from .services import SpeechError, synthesize_speech
 
-
+# AddWord - Step 12. authentication_classes pull the JWT out of the httpOnly cookie and
+# set request.user. IsAuthenticated (settings.py default) still applies to a plain APIView.
 class OwnedAPIView(APIView):
     authentication_classes = [JWTCookieAuthentication, JWTAuthentication]
     model = None
@@ -82,11 +83,12 @@ class CollectionDetailView(OwnedAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
+# AddWord - Step 14. - EntryListCreateView.post calls serializer.save(owner=request.user). Owner never comes from the request body. ForeignKey gets injected server-side right before INSERT. Prevents a user from creating an entry under someone else's account
 class EntryListCreateView(OwnedAPIView):
     model = Entry
     serializer_class = EntrySerializer
 
+    # only ever returns rows the logged-in user owns; ?collection= and ?search= narrow it further
     def get_queryset(self):
         qs = self.model.objects.select_related("collection").filter(
             owner=self.request.user
@@ -105,7 +107,7 @@ class EntryListCreateView(OwnedAPIView):
         )
         return Response(serializer.data)
 
-    # AddWord: Step 11. POST from createEntry() passes through here
+    # AddWord: Step 11. POST from createEntry() ends here. Data enters the database
     def post(self, request):
         serializer = EntrySerializer(
             data=request.data, context=self.serializer_context()
@@ -134,9 +136,11 @@ class EntryDetailView(OwnedAPIView):
     def put(self, request, pk):
         return self._update(request, pk, partial=False)
 
+    # partial attribute means payload doesn't need every field to enter database
     def patch(self, request, pk):
         return self._update(request, pk, partial=True)
 
+    # helper function to make code in put and patch read better. Leading underscore labels it as an internal function, not http
     def _update(self, request, pk, partial):
         entry = self.get_object(pk)
         serializer = EntrySerializer(

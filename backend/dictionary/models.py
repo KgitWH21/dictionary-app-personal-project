@@ -22,7 +22,7 @@ class Collection(models.Model):
     def __str__(self):
         return f"{self.name} ({self.owner.username})"
 
-
+# AddWord: Step 15 - 
 class Entry(models.Model):
     #this covers saved words and a user notes entry field
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="entries")
